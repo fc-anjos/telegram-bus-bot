@@ -6,7 +6,7 @@ Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
     case message.text
     when '/start'
-      bot.api.send_message(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}!")
+      bot.api.send_message(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}! Vou fazer um robô pra te mandar um alôzinho então, demorou??")
     when '/end'
       bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}!")
     else
