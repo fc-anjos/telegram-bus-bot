@@ -1,5 +1,3 @@
-# require 'api_connection'
-
 class Display
   def format_signs(signs)
     string = ''
