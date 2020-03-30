@@ -54,10 +54,3 @@ class Display
     end
   end
 end
-
-connection = Connection.new
-lines = connection.lines('8000')
-signs = connection.get_signs(lines)
-
-print signs
-# Display.new(connection.signs).format_signs

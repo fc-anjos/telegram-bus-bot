@@ -14,7 +14,7 @@ Telegram::Bot::Client.run(token) do |bot|
       lines = connection.lines('8000')
       signs = connection.get_signs(lines)
       signs.each do |_code, sign|
-        bot.api.send_message(chat_id: message.chat.id, text: sign.to_s)
+        bot.api.send_message(chat_id: message.chat.id, text: sign)
       end
 
     when '/end'
