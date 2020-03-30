@@ -9,13 +9,14 @@ Telegram::Bot::Client.run(token) do |bot|
     when '/start'
       bot.api.send_message(chat_id: message.chat.id, text: "Fala,  #{message.from.first_name}!" \
                            'Vou fazer um robô pra te mandar um alôzinho então, demorou??')
-    when '/8000'
-      connection = Connection.new
-      lines = connection.lines('8000')
-      signs = connection.get_signs(lines)
-      signs.each do |_code, sign|
-        bot.api.send_message(chat_id: message.chat.id, text: sign)
-      end
+
+#     when '/8000'
+#       connection = Connection.new
+#       lines = connection.lines('8000')
+#       signs = connection.get_signs(lines)
+#       signs.each do |_code, sign|
+#         bot.api.send_message(chat_id: message.chat.id, text: sign)
+#       end
 
     when '/end'
       bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}!")
