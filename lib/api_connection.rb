@@ -14,14 +14,12 @@ class Connection
 
   def lines(terms)
     lines = @agent.get "#{@base_url}/Linha/Buscar?termosBusca=#{terms}"
-    get_signs(parse_lines(lines.body))
     parse_lines(lines.body)
   end
 
   def parse_lines(lines_body)
     line_xml = Nokogiri::HTML(lines_body, nil, Encoding::UTF_8.to_s)
     line_json = JSON.parse(line_xml.css('body p').inner_html)
-    # Returns an array of the found lines
     line_json
   end
 
