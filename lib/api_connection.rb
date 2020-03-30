@@ -14,6 +14,7 @@ class Connection
 
   def lines(terms)
     lines = @agent.get "#{@base_url}/Linha/Buscar?termosBusca=#{terms}"
+    get_signs(parse_lines(lines.body))
     parse_lines(lines.body)
   end
 
@@ -31,7 +32,7 @@ class Connection
 
   def get_signs(lines)
     # TODO: Make it work for circular lines
-    @signs = {}
+    signs = {}
     lines.each do |line|
       line_code = line['cl']
       sign_number = line['lt'].to_s + '-' + line['tl'].to_s
@@ -40,19 +41,8 @@ class Connection
       elsif line['sl'] == 2
         sign = "#{sign_number} #{line['ts']} => #{line['tp']}"
       end
-      @signs[line_code] = sign
+      signs[line_code] = sign
     end
-  end
-end
-
-class Display
-  def initialize(signs)
-    @signs = signs
-  end
-
-  def format_signs
-    @signs.each do |_code, sign|
-      puts sign
-    end
+    signs
   end
 end
