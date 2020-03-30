@@ -4,6 +4,7 @@ require_relative '../lib/api_connection'
 require_relative '../lib/display'
 token = '1007984866:AAHy5tUA-a_Vo5U8KTxKpLbB1SkZ-FZJX_E'
 
+## RELOAD TEST
 Telegram::Bot::Client.run(token) do |bot|
   connection = Connection.new
   bot.listen do |message|
