@@ -10,7 +10,7 @@ class Display
   end
 end
 
-connection = Connection.new
-lines = connection.lines('8000')
-signs = connection.get_signs(lines)
-Display.new.format_signs(signs)
+# connection = Connection.new
+# lines = connection.lines('8000')
+# signs = connection.get_signs(lines)
+# Display.new.format_signs(signs)
