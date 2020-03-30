@@ -3,8 +3,6 @@ require 'telegram/bot'
 require 'api_connection'
 token = '1007984866:AAHy5tUA-a_Vo5U8KTxKpLbB1SkZ-FZJX_E'
 
-puts Connection.new.search('8000')
-
 Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
     case message.text
