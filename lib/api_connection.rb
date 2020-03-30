@@ -30,6 +30,7 @@ class Connection
   end
 
   def get_signs(lines)
+    # TODO: Make it work for circular lines
     @signs = {}
     lines.each do |line|
       line_code = line['cl']
