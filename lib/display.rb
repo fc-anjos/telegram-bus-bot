@@ -1,14 +1,12 @@
 require 'api_connection'
 
 class Display
-  # def initialize
-  # @signs = signs
-  # end
-
   def format_signs(signs)
-    signs.each do |_code, sign|
-      puts sign
+    string = ''
+    signs.each_with_index do |(_code, sign), index|
+      string += "#{index + 1}:\n#{sign}\n"
     end
+    string
   end
 end
 
