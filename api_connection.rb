@@ -3,6 +3,8 @@ require 'nokogiri'
 require 'json'
 
 class Connection
+  @signs = nil
+  attr_reader :signs
   def initialize
     @base_url = 'http://api.olhovivo.sptrans.com.br/v2.1'
     token = '41a811d106147fd42bb8205ed6ff75a19b3ace1d79564d2ec522cad6fc930f41'
@@ -12,7 +14,7 @@ class Connection
 
   def lines(terms)
     lines = @agent.get "#{@base_url}/Linha/Buscar?termosBusca=#{terms}"
-    lines.body
+    parse_lines(lines.body)
   end
 
   def parse_lines(lines_body)
@@ -26,24 +28,34 @@ class Connection
     stops = @agent.get "#{@base_url}/Parada/BuscarParadasPorLinha?codigoLinha=#{line_code}"
   end
 
-  # Should be a HASH with line_code as key and SIGN as value
   def get_signs(lines)
-    signs = {}
+    @signs = {}
     lines.each do |line|
       line_code = line['cl']
       sign_number = line['lt'].to_s + '-' + line['tl'].to_s
       if line['sl'] == 1
-        sign = "#{sign_number} #{line['tp']} => #{line['ts']}}"
+        sign = "#{sign_number} #{line['tp']} => #{line['ts']}"
       elsif line['sl'] == 2
-        sign = "#{sign_number} #{line['ts']} => #{line['tp']}}"
+        sign = "#{sign_number} #{line['ts']} => #{line['tp']}"
       end
-      signs[line_code] = sign
+      @signs[line_code] = sign
+    end
+  end
+end
+
+class Display
+  def initialize(signs)
+    @signs = signs
+  end
+
+  def format_signs
+    @signs.each do |_code, sign|
+      puts sign
     end
   end
 end
 
 connection = Connection.new
-line = connection.lines('8000')
-lines = connection.parse_lines(line)
-signs = connection.get_signs(lines)
-p signs
+lines = connection.lines('8000')
+connection.get_signs(lines)
+Display.new(connection.signs).format_signs
