@@ -3,6 +3,7 @@ require 'telegram/bot'
 require_relative './api_connection.rb'
 token = '1007984866:AAHy5tUA-a_Vo5U8KTxKpLbB1SkZ-FZJX_E'
 
+# Deploy to front-end branch
 Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
     case message.text
