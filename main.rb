@@ -3,7 +3,6 @@ require 'telegram/bot'
 require_relative './api_connection.rb'
 token = '1007984866:AAHy5tUA-a_Vo5U8KTxKpLbB1SkZ-FZJX_E'
 
-# Deploy to front-end branch
 Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
     case message.text
@@ -11,8 +10,13 @@ Telegram::Bot::Client.run(token) do |bot|
       bot.api.send_message(chat_id: message.chat.id, text: "Fala,  #{message.from.first_name}!" \
                            'Vou fazer um robô pra te mandar um alôzinho então, demorou??')
     when '/8000'
-      search_result = Connection.new.lines('8000')
-      bot.api.send_message(chat_id: message.chat.id, text: search_result.to_s)
+      connection = Connection.new
+      lines = connection.lines('8000')
+      signs = connection.get_signs(lines)
+      signs.each do |_code, sign|
+        bot.api.send_message(chat_id: message.chat.id, text: sign.to_s)
+      end
+
     when '/end'
       bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}!")
     else

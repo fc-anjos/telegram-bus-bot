@@ -57,5 +57,7 @@ end
 
 connection = Connection.new
 lines = connection.lines('8000')
-connection.get_signs(lines)
-Display.new(connection.signs).format_signs
+signs = connection.get_signs(lines)
+
+print signs
+# Display.new(connection.signs).format_signs
