@@ -35,9 +35,9 @@ class Connection
       line_code = line['cl']
       sign_number = line['lt'].to_s + '-' + line['tl'].to_s
       if line['sl'] == 1
-        sign = "#{sign_number} #{line['tp']} => #{line['ts']}"
+        sign = "#{sign_number}\n#{line['tp']} => #{line['ts']}"
       elsif line['sl'] == 2
-        sign = "#{sign_number} #{line['ts']} => #{line['tp']}"
+        sign = "#{sign_number}\n#{line['ts']} => #{line['tp']}"
       end
       signs[line_code] = sign
     end
