@@ -26,6 +26,7 @@ class Connection
 
   def stops_per_line(line_code)
     stops = @agent.get "#{@base_url}/Parada/BuscarParadasPorLinha?codigoLinha=#{line_code}"
+    stops
   end
 
   def get_signs(lines)
