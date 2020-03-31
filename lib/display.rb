@@ -1,5 +1,3 @@
-require_relative './api_connection.rb'
-
 class Display
   def initialize; end
 
@@ -32,8 +30,9 @@ end
 
 connection = Connection.new
 lines = connection.lines('8000')
+
 display = Display.new
 signs = display.get_signs(lines)
-signs = display.new.format_signs(signs)
+signs = display.format_signs(signs)
 
 puts signs
