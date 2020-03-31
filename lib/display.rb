@@ -1,5 +1,3 @@
-require_relative './api_connection.rb'
-
 class Display
   def format_signs(signs)
     string = ''
@@ -10,9 +8,3 @@ class Display
     string
   end
 end
-
-connection = Connection.new
-lines = connection.lines('8000')
-signs = connection.get_signs(lines)
-answer = Display.new.format_signs(signs)
-puts answer
