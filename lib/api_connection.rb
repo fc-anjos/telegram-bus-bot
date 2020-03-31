@@ -14,44 +14,28 @@ class Connection
 
   def lines(terms)
     lines = @agent.get "#{@base_url}/Linha/Buscar?termosBusca=#{terms}"
-    parsed_lines = parse_lines(lines.body)
-    hash_lines(parsed_lines)
-  end
-
-  def parse_lines(lines_body)
-    line_xml = Nokogiri::HTML(lines_body, nil, Encoding::UTF_8.to_s)
-    line_json = JSON.parse(line_xml.css('body p').inner_html)
-    line_json
-  end
-
-  def hash_lines(line_json)
-    lines = {}
-    line_json.each do |line|
-      code = line.delete('cl')
-      lines[code] = line
-    end
-    lines
+    parsed_lines = parse_query(lines.body)
+    hash_result(parsed_lines, 'cl')
   end
 
   def stops_per_line(line_code)
     stops = @agent.get "#{@base_url}/Parada/BuscarParadasPorLinha?codigoLinha=#{line_code}"
-    stops
+    parsed_stops = parse_query(stops.body)
+    hash_result(parsed_stops, 'cp')
   end
 
-  def get_signs(hash_lines)
-    signs = {}
-    hash_lines.each do |code, line|
-      line_code = code
-      sign_number = line['lt'].to_s + '-' + line['tl'].to_s
-      if line['lc']
-        sign = "#{sign_number}\n#{line['tp']} (#{line['ts']})"
-      elsif line['sl'] == 1
-        sign = "#{sign_number}\n#{line['tp']} => #{line['ts']}"
-      elsif line['sl'] == 2
-        sign = "#{sign_number}\n#{line['ts']} => #{line['tp']}"
-      end
-      signs[line_code] = sign
+  def parse_query(html_result)
+    result_xml = Nokogiri::HTML(html_result, nil, Encoding::UTF_8.to_s)
+    result_json = JSON.parse(result_xml.css('body p').inner_html)
+    result_json
+  end
+
+  def hash_result(results_json, code_key)
+    hash = {}
+    results_json.each do |result|
+      code = result.delete(code_key)
+      hash[code] = result
     end
-    signs
+    hash
   end
 end
