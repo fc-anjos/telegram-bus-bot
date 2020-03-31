@@ -29,7 +29,7 @@ Telegram::Bot::Client.run(token) do |bot|
 
       #       bot.listen do |message2|
       #         options = display.prepare_selection(lines)
-      #         chosen = options[(message2.text.to_i + 1)]
+      #         chosen = options[(message2.text.to_i - 1)]
       #         bot.api.send_message(chat_id: message.chat.id, text: chosen)
       #       end
 
