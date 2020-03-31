@@ -18,12 +18,20 @@ class Display
     signs
   end
 
-  def format_signs(signs)
+  def format_signs(hash_lines)
     string = ''
-    signs.each_with_index do |(_code, sign), index|
+    hash_lines.each_with_index do |(_code, sign), index|
       string += "\n" if index >= 0
       string += "#{index + 1}:\n#{sign}\n"
     end
     string
+  end
+
+  def prepare_selection(hash_lines)
+    selections = {}
+    hash_lines.each_with_index do |(code, _sign), index|
+      selections[index] = code
+    end
+    selections
   end
 end
