@@ -18,9 +18,9 @@ class Display
     signs
   end
 
-  def format_signs(hash_lines)
+  def format_signs(hash_signs)
     string = ''
-    hash_lines.each_with_index do |(_code, sign), index|
+    hash_signs.each_with_index do |(_code, sign), index|
       string += "\n" if index >= 0
       string += "#{index + 1}:\n#{sign}\n"
     end
