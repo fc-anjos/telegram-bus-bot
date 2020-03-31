@@ -17,21 +17,21 @@ Telegram::Bot::Client.run(token) do |bot|
       bot.api.send_message(chat_id: message.chat.id, text: "Fala,  #{message.from.first_name}!" \
                            'Vou fazer um robô pra te mandar um alôzinho então, demorou??')
 
+    #     else
+    #       bot.api.send_message(chat_id: message.chat.id, text: "Foi mal,  #{message.from.first_name}!" \
+    #    'você quebrou o robozinho')
+
     else
-      bot.api.send_message(chat_id: message.chat.id, text: "Foi mal,  #{message.from.first_name}!" \
-   'você quebrou o robozinho')
+      lines = connection.lines(message)
+      signs = display.get_signs(lines)
+      signs = display.format_signs(signs)
+      bot.api.send_message(chat_id: message.chat.id, text: signs)
 
-      #     else
-      #       lines = connection.lines(message)
-      #       signs = display.get_signs(lines)
-      #       signs = display.format_signs(signs)
-      #       bot.api.send_message(chat_id: message.chat.id, text: signs)
-
-      #       bot.listen do |message2|
-      #         options = display.prepare_selection(lines)
-      #         chosen = options[(message2.text.to_i + 1)]
-      #         bot.api.send_message(chat_id: message.chat.id, text: chosen)
-      #       end
+      bot.listen do |message2|
+        options = display.prepare_selection(lines)
+        chosen = options[(message2.text.to_i + 1)]
+        bot.api.send_message(chat_id: message.chat.id, text: chosen)
+      end
 
     end
   end
