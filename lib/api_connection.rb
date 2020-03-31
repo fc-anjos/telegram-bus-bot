@@ -14,7 +14,8 @@ class Connection
 
   def lines(terms)
     lines = @agent.get "#{@base_url}/Linha/Buscar?termosBusca=#{terms}"
-    parse_lines(lines.body)
+    parsed_lines = parse_lines(lines.body)
+    hash_lines(parsed_lines)
   end
 
   def parse_lines(lines_body)
@@ -23,18 +24,28 @@ class Connection
     line_json
   end
 
+  def hash_lines(line_json)
+    lines = {}
+    line_json.each do |line|
+      code = line.delete('cl')
+      lines[code] = line
+    end
+    lines
+  end
+
   def stops_per_line(line_code)
     stops = @agent.get "#{@base_url}/Parada/BuscarParadasPorLinha?codigoLinha=#{line_code}"
     stops
   end
 
-  def get_signs(lines)
-    # TODO: Make it work for circular lines
+  def get_signs(hash_lines)
     signs = {}
-    lines.each do |line|
-      line_code = line['cl']
+    hash_lines.each do |code, line|
+      line_code = code
       sign_number = line['lt'].to_s + '-' + line['tl'].to_s
-      if line['sl'] == 1
+      if line['lc']
+        sign = "#{sign_number}\n#{line['tp']} (#{line['ts']})"
+      elsif line['sl'] == 1
         sign = "#{sign_number}\n#{line['tp']} => #{line['ts']}"
       elsif line['sl'] == 2
         sign = "#{sign_number}\n#{line['ts']} => #{line['tp']}"
