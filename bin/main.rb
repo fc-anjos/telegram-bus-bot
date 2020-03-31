@@ -18,17 +18,7 @@ Telegram::Bot::Client.run(token) do |bot|
       lines = connection.lines(message)
       signs = display.get_signs(lines)
       question = display.format_signs(signs)
-      answers = display.prepare_selection(lines)
       bot.api.send_message(chat_id: message.chat.id, text: question)
-      # bot.listen do |answer|
-      # case message.text
-      # when '/help'
-      # puts 'ok'
-      # else
-      # chosen = answers[answer.to_i]
-      # bot.api.send_message(chat_id: message.chat.id, text: chosen)
-      # end
-      # end
     end
   end
 end
