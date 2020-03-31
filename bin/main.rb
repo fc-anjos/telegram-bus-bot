@@ -17,8 +17,8 @@ Telegram::Bot::Client.run(token) do |bot|
     else
       lines = connection.lines(message)
       signs = display.get_signs(lines)
-      question = display.format_signs(signs)
-      bot.api.send_message(chat_id: message.chat.id, text: question)
+      answer = display.format_signs(signs)
+      bot.api.send_message(chat_id: message.chat.id, text: answer)
     end
   end
 end
