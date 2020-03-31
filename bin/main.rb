@@ -13,10 +13,12 @@ def select_lines(message, bot, connection, display)
 
   bot.listen do |message2|
     options = display.prepare_selection(lines)
-    chosen = options[(message2.text.to_i - 1)]
-    chosen
+    return options[(message2.text.to_i - 1)]
   end
 end
+
+# def select_stop(line-code, bot, connection, display)
+# end
 
 Telegram::Bot::Client.run(token) do |bot|
   connection = Connection.new
