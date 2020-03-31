@@ -17,9 +17,6 @@ def select_lines(message, bot, connection, display)
   end
 end
 
-# def select_stop(line-code, bot, connection, display)
-# end
-
 Telegram::Bot::Client.run(token) do |bot|
   connection = Connection.new
   display = Display.new
@@ -30,13 +27,14 @@ Telegram::Bot::Client.run(token) do |bot|
       bot.api.send_message(chat_id: message.chat.id, text: "Fala,  #{message.from.first_name}!" \
                              'Vou fazer um robô pra te mandar um alôzinho então, demorou??')
 
-    else
-      bot.api.send_message(chat_id: message.chat.id, text: "Foi mal,  #{message.from.first_name}!" \
-   'você quebrou o robozinho')
+    #     else
+    #       bot.api.send_message(chat_id: message.chat.id, text: "Foi mal,  #{message.from.first_name}!" \
+    # 'você quebrou o robozinho')
 
-      # else
-      #   chosen = select_lines(message, bot, connection, display)
-      #   bot.api.send_message(chat_id: message.chat.id, text: chosen)
+    else
+      chosen = select_lines(message, bot, connection, display)
+      bot.api.send_message(chat_id: message.chat.id, text: chosen)
+
     end
   end
 end
