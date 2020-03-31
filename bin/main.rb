@@ -5,6 +5,8 @@ require_relative '../lib/api_connection'
 
 token = '1007984866:AAHy5tUA-a_Vo5U8KTxKpLbB1SkZ-FZJX_E'
 
+def select_lines(message); end
+
 Telegram::Bot::Client.run(token) do |bot|
   connection = Connection.new
   display = Display.new
@@ -27,7 +29,7 @@ Telegram::Bot::Client.run(token) do |bot|
 
       #       bot.listen do |message2|
       #         options = display.prepare_selection(lines)
-      #         chosen = options[message2.text.to_i]
+      #         chosen = options[(message2.text.to_i + 1)]
       #         bot.api.send_message(chat_id: message.chat.id, text: chosen)
       #       end
 
