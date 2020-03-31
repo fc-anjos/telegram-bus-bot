@@ -16,16 +16,20 @@ Telegram::Bot::Client.run(token) do |bot|
                            'Vou fazer um robô pra te mandar um alôzinho então, demorou??')
 
     else
-      lines = connection.lines(message)
-      signs = display.get_signs(lines)
-      signs = display.format_signs(signs)
-      bot.api.send_message(chat_id: message.chat.id, text: signs)
+      bot.api.send_message(chat_id: message.chat.id, text: "Foi mal,  #{message.from.first_name}!" \
+   'você quebrou o robozinho')
 
-      bot.listen do |message2|
-        options = display.prepare_selection(lines)
-        chosen = options[message2.text.to_i]
-        bot.api.send_message(chat_id: message.chat.id, text: chosen)
-      end
+      #     else
+      #       lines = connection.lines(message)
+      #       signs = display.get_signs(lines)
+      #       signs = display.format_signs(signs)
+      #       bot.api.send_message(chat_id: message.chat.id, text: signs)
+
+      #       bot.listen do |message2|
+      #         options = display.prepare_selection(lines)
+      #         chosen = options[message2.text.to_i]
+      #         bot.api.send_message(chat_id: message.chat.id, text: chosen)
+      #       end
 
     end
   end
