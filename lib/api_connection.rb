@@ -14,33 +14,28 @@ class Connection
 
   def lines(terms)
     lines = @agent.get "#{@base_url}/Linha/Buscar?termosBusca=#{terms}"
-    parse_lines(lines.body)
-  end
-
-  def parse_lines(lines_body)
-    line_xml = Nokogiri::HTML(lines_body, nil, Encoding::UTF_8.to_s)
-    line_json = JSON.parse(line_xml.css('body p').inner_html)
-    line_json
+    parsed_lines = parse_query(lines.body)
+    hash_result(parsed_lines, 'cl')
   end
 
   def stops_per_line(line_code)
     stops = @agent.get "#{@base_url}/Parada/BuscarParadasPorLinha?codigoLinha=#{line_code}"
-    stops
+    parsed_stops = parse_query(stops.body)
+    hash_result(parsed_stops, 'cp')
   end
 
-  def get_signs(lines)
-    # TODO: Make it work for circular lines
-    signs = {}
-    lines.each do |line|
-      line_code = line['cl']
-      sign_number = line['lt'].to_s + '-' + line['tl'].to_s
-      if line['sl'] == 1
-        sign = "#{sign_number}\n#{line['tp']} => #{line['ts']}"
-      elsif line['sl'] == 2
-        sign = "#{sign_number}\n#{line['ts']} => #{line['tp']}"
-      end
-      signs[line_code] = sign
+  def parse_query(html_result)
+    result_xml = Nokogiri::HTML(html_result, nil, Encoding::UTF_8.to_s)
+    result_json = JSON.parse(result_xml.css('body p').inner_html)
+    result_json
+  end
+
+  def hash_result(results_json, code_key)
+    hash = {}
+    results_json.each do |result|
+      code = result.delete(code_key)
+      hash[code] = result
     end
-    signs
+    hash
   end
 end
