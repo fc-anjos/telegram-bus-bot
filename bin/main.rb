@@ -20,9 +20,13 @@ Telegram::Bot::Client.run(token) do |bot|
       signs = display.get_signs(lines)
       signs = display.format_signs(signs)
       bot.api.send_message(chat_id: message.chat.id, text: signs)
+
       bot.listen do |message2|
-        bot.api.send_message(chat_id: message.chat.id, text: message2)
+        options = display.prepare_selection(lines)
+        chosen = options[message2.text.to_i]
+        bot.api.send_message(chat_id: message.chat.id, text: chosen)
       end
+
     end
   end
 end
