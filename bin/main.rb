@@ -55,7 +55,7 @@ def select_stop(message, bot, display, stops_hash)
   false
 end
 
-def message_arrival_time(message, bot, display, stop_code, line_code)
+def message_arrival_time(connection, message, bot, display, stop_code, line_code)
   hash_arrivals = connection.estimate_arrival(stop_code, line_code)
   arrivals_list = display.get_arrivals(hash_arrivals)
   if arrivals_list.empty?
@@ -73,20 +73,22 @@ Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
     case message.text
     when '/start'
-      bot.api.send_message(chat_id: message.chat.id, text: "Fala,  #{message.from.first_name}!" \
-                             'Vou fazer um robô pra te mandar um alôzinho então, demorou??')
+      bot.api.send_message(chat_id: message.chat.id, text: "Hello,  #{message.from.first_name}!" \
+                             'This is a bot that will help you getting the estimated arrival times for buses in São Paulo ')
+      bot.api.send_message(chat_id: message.chat.id, text: 'To start you first search, just type a bus number or part of it\'s name ')
+      bot.api.send_message(chat_id: message.chat.id, text: '(e.g. 8000)')
+
+    #     else
+    #       bot.api.send_message(chat_id: message.chat.id, text: "Foi mal,  #{message.from.first_name}!" \
+    #       'você quebrou o robozinho')
 
     else
-      bot.api.send_message(chat_id: message.chat.id, text: "Foi mal,  #{message.from.first_name}!" \
-      'você quebrou o robozinho')
-
-      #     else
-      #       line_code = nil
-      #       line_code = show_lines(message, bot, connection, display) until line_code
-      #       bot.api.send_message(chat_id: message.chat.id, text: 'Please select your stop by typing an option number')
-      #       bot.api.send_message(chat_id: message.chat.id, text: 'Options:')
-      #       stop_code = show_stops(message, line_code, bot, connection, display)
-      #       message_arrival_time(message, bot, display, stop_code, line_code)
+      line_code = nil
+      line_code = show_lines(message, bot, connection, display) until line_code
+      bot.api.send_message(chat_id: message.chat.id, text: 'Please select your stop by typing an option number')
+      bot.api.send_message(chat_id: message.chat.id, text: 'Options:')
+      stop_code = show_stops(message, line_code, bot, connection, display)
+      message_arrival_time(connection, message, bot, display, stop_code, line_code)
     end
   end
 end
