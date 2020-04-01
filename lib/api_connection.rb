@@ -30,6 +30,12 @@ class Connection
     result_json
   end
 
+  def estimate_arrival(stop_code, line_code)
+    arrival = @agent.get "#{@base_url}/Previsao?codigoParada=#{stop_code}&codigoLinha=#{line_code} "
+    parsed_arrival = parse_query(arrival.body)
+    parsed_arrival['hr']
+  end
+
   def hash_result(results_json, code_key)
     hash = {}
     results_json.each do |result|
