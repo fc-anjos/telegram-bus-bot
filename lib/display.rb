@@ -20,9 +20,9 @@ class Display
 
   def format_message(hash)
     string = ''
-    hash.each_with_index do |(_code, sign), index|
+    hash.each_with_index do |(_key, value), index|
       string += "\n" if index >= 0
-      string += "#{index + 1}:\n#{sign}\n"
+      string += "#{index + 1}:\n#{value}\n"
     end
     string
   end
