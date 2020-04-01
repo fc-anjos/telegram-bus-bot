@@ -74,13 +74,10 @@ Telegram::Bot::Client.run(token) do |bot|
     case message.text
     when '/start'
       bot.api.send_message(chat_id: message.chat.id, text: "Hello,  #{message.from.first_name}!" \
-                             'This is a bot that will help you getting the estimated arrival times for buses in São Paulo ')
-      bot.api.send_message(chat_id: message.chat.id, text: 'To start you first search, just type a bus number or part of it\'s name ')
+        'This is a bot that will help you getting the estimated arrival times for buses in São Paulo ')
+      bot.api.send_message(chat_id: message.chat.id, text: '' \
+      'To start you first search, just type a bus number or part of it\'s name ')
       bot.api.send_message(chat_id: message.chat.id, text: '(e.g. 8000)')
-
-    #     else
-    #       bot.api.send_message(chat_id: message.chat.id, text: "Foi mal,  #{message.from.first_name}!" \
-    #       'você quebrou o robozinho')
 
     else
       line_code = nil
