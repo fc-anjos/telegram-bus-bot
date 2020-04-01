@@ -2,6 +2,7 @@ require 'rubygems'
 require 'telegram/bot'
 require_relative '../lib/display'
 require_relative '../lib/api_connection'
+
 token = '1007984866:AAHy5tUA-a_Vo5U8KTxKpLbB1SkZ-FZJX_E'
 
 def show_lines(message, bot, connection, display)
@@ -17,7 +18,14 @@ end
 def select_lines(bot, display, lines)
   bot.listen do |message|
     options = display.prepare_selection(lines)
-    choice = message.text.to_i
+    choice = nil
+    until choice
+      begin
+        choice = message.text.to_i
+      rescue StandardError
+        bot.api.send_message(chat_id: message.chat.id, text: 'Invalid number selected!')
+      end
+    end
     return options[choice - 1] if choice <= options.length && choice.positive?
 
     bot.api.send_message(chat_id: message.chat.id, text: 'Invalid number selected!')
@@ -32,9 +40,9 @@ def show_stops(message, line_code, bot, connection, display)
 
   bot.api.send_message(chat_id: message.chat.id, text: stops)
 
-  bot.listen do |stop_message|
+  bot.listen do |message_stop|
     chosen = nil
-    return select_stop(stop_message, bot, display, stops_hash) until chosen
+    return select_stop(message_stop, bot, display, stops_hash) until chosen
   end
 end
 
