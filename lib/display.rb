@@ -22,7 +22,7 @@ class Display
     string = ''
     hash.each_with_index do |(_key, value), index|
       string += "\n" if index >= 0
-      string += "#{index + 1}:\n#{value}\n"
+      string += "**#{index + 1}**\n#{value}\n"
     end
     string
   end
@@ -33,6 +33,33 @@ class Display
       selections[index] = code
     end
     selections
+  end
+
+  def get_arrivals(hash_arrivals)
+    arrivals = []
+    ## Catches the exception for when there are no arrivals expected
+    begin
+    hash_arrivals['p']['l'].each do |line|
+      line['vs'].each do |vehicle|
+        arrivals.push(vehicle['t'])
+      end
+    end
+    rescue StandardError
+      arrivals
+  end
+    arrivals
+  end
+
+  def format_arrivals(arrivals_list)
+    string = ''
+    if arrivals_list.empty?
+      string = 'There are no expected arrivals for this line at this stop!'
+    else
+      arrivals_list.each do |time|
+        string += time
+      end
+    end
+    string
   end
 
   def get_stops(hash_stops)

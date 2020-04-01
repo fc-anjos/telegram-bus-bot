@@ -32,8 +32,12 @@ class Connection
 
   def estimate_arrival(stop_code, line_code)
     arrival = @agent.get "#{@base_url}/Previsao?codigoParada=#{stop_code}&codigoLinha=#{line_code} "
-    parsed_arrival = parse_query(arrival.body)
-    parsed_arrival['hr']
+    parse_query(arrival.body)
+  end
+
+  def arrivals_at_stop(stop_code)
+    arrival = @agent.get "#{@base_url}//Previsao/Parada?codigoParada=#{stop_code}"
+    puts arrival.body
   end
 
   def hash_result(results_json, code_key)
