@@ -55,7 +55,7 @@ class Display
       string += if index.zero?
                   time.to_s
                 elsif index == 1
-                  "and then at #{time}"
+                  " and then at #{time}"
                 else
                   ", #{time}"
                 end
