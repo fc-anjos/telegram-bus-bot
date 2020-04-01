@@ -32,9 +32,9 @@ def show_stops(message, line_code, bot, connection, display)
 
   bot.api.send_message(chat_id: message.chat.id, text: stops)
 
-  bot.listen do |message|
+  bot.listen do |stop_message|
     chosen = nil
-    return select_stop(message, bot, display, stops_hash) until chosen
+    return select_stop(stop_message, bot, display, stops_hash) until chosen
   end
 end
 
