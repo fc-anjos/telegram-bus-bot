@@ -71,10 +71,10 @@ Telegram::Bot::Client.run(token) do |bot|
     else
       line_code = nil
       line_code = show_lines(message, bot, connection, display) until line_code
-      bot.api.send_message(chat_id: message.chat.id, text: line_code)
       bot.api.send_message(chat_id: message.chat.id, text: 'Please select your stop')
-      stop = show_stops(message, line_code, bot, connection, display)
-      bot.api.send_message(chat_id: message.chat.id, text: "Your stop is: #{stop}")
+      stop_code = show_stops(message, line_code, bot, connection, display)
+      arrival_time = connection.estimate_arrival(stop_code, line_code)
+      bot.api.send_message(chat_id: message.chat.id, text: "Your bus should arrive at ##{arrival_time}")
     end
   end
 end
