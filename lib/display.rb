@@ -52,7 +52,6 @@ class Display
 
   def format_arrivals(arrivals_list)
     string = ''
-    string = 'There are no expected arrivals for this line at this stop!'
     arrivals_list.each do |time|
       string += time.to_s
     end
