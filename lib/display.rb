@@ -18,20 +18,31 @@ class Display
     signs
   end
 
-  def format_signs(hash_signs)
+  def format_message(hash)
     string = ''
-    hash_signs.each_with_index do |(_code, sign), index|
+    hash.each_with_index do |(_code, sign), index|
       string += "\n" if index >= 0
       string += "#{index + 1}:\n#{sign}\n"
     end
     string
   end
 
-  def prepare_selection(hash_lines)
+  def prepare_selection(hash)
     selections = {}
-    hash_lines.each_with_index do |(code, _sign), index|
+    hash.each_with_index do |(code, _sign), index|
       selections[index] = code
     end
     selections
+  end
+
+  def get_stops(hash_stops)
+    stops = {}
+    hash_stops.each do |code, stop|
+      stop_code = code
+      stop_name = stop['np']
+      stop_address = stop['ed']
+      stops[stop_code] = "Stop #{stop_name} at #{stop_address}"
+    end
+    stops
   end
 end
