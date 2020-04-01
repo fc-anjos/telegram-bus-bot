@@ -79,13 +79,13 @@ Telegram::Bot::Client.run(token) do |bot|
       'To start you first search, just type a bus number or part of it\'s name ')
       bot.api.send_message(chat_id: message.chat.id, text: '(e.g. 8000)')
 
-    else
-      line_code = nil
-      line_code = show_lines(message, bot, connection, display) until line_code
-      bot.api.send_message(chat_id: message.chat.id, text: 'Please select your stop by typing an option number')
-      bot.api.send_message(chat_id: message.chat.id, text: 'Options:')
-      stop_code = show_stops(message, line_code, bot, connection, display)
-      message_arrival_time(connection, message, bot, display, stop_code, line_code)
+      #     else
+      #       line_code = nil
+      #       line_code = show_lines(message, bot, connection, display) until line_code
+      #       bot.api.send_message(chat_id: message.chat.id, text: 'Please select your stop by typing an option number')
+      #       bot.api.send_message(chat_id: message.chat.id, text: 'Options:')
+      #       stop_code = show_stops(message, line_code, bot, connection, display)
+      #       message_arrival_time(connection, message, bot, display, stop_code, line_code)
     end
   end
 end
