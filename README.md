@@ -13,7 +13,7 @@ drop a message to @bus-statuses-bot in Telegram
 
 <!-- SCREENSHOT -->
 _Screenshot_
-![Screenshot of the project](screenshot.PNG)
+![Screenshot of the project](screenshot.gif)
 ## Built With
 ruby
 [Telegram](https://telegram.org/)
