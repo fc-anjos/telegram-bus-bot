@@ -11,19 +11,19 @@ def show_lines(message, bot, connection, display)
   signs = display.format_signs(signs)
   bot.api.send_message(chat_id: message.chat.id, text: 'Please select your line')
   bot.api.send_message(chat_id: message.chat.id, text: signs)
-  select_lines(message, bot, connection, display, lines)
+  chosen = select_lines(bot, display, lines)
+  chosen
 end
 
-def select_lines(bot, connection, display, lines)
+def select_lines(bot, display, lines)
   bot.listen do |message|
     options = display.prepare_selection(lines)
     choice = message.text.to_i - 1
     bot.api.send_message(chat_id: message.chat.id, text: options.length.to_s)
-    if choice > options.length || choice.negative?
-      bot.api.send_message(chat_id: message.chat.id, text: 'Invalid number selected!')
-      return select_lines(bot, connection, display, lines)
-    end
-    return options[choice]
+    return options[choice] if choice < options.length || choice.positive?
+
+    bot.api.send_message(chat_id: message.chat.id, text: 'Invalid number selected!')
+    return false
   end
 end
 
@@ -37,13 +37,14 @@ Telegram::Bot::Client.run(token) do |bot|
       bot.api.send_message(chat_id: message.chat.id, text: "Fala,  #{message.from.first_name}!" \
                              'Vou fazer um robô pra te mandar um alôzinho então, demorou??')
 
-    else
-      bot.api.send_message(chat_id: message.chat.id, text: "Foi mal,  #{message.from.first_name}!" \
-      'você quebrou o robozinho')
+    #     else
+    #       bot.api.send_message(chat_id: message.chat.id, text: "Foi mal,  #{message.from.first_name}!" \
+    #       'você quebrou o robozinho')
 
-      # else
-      # chosen = show_lines(message, bot, connection, display)
-      # bot.api.send_message(chat_id: message.chat.id, text: chosen)
+    else
+      chosen = nil
+      chosen = show_lines(message, bot, connection, display) until chosen
+      bot.api.send_message(chat_id: message.chat.id, text: chosen)
       # TODO: Select the bus stop
 
     end
