@@ -8,7 +8,8 @@ def show_lines(message, bot, connection, display)
   lines = connection.lines(message)
   signs = display.get_signs(lines)
   signs = display.format_message(signs)
-  bot.api.send_message(chat_id: message.chat.id, text: 'Please select your line')
+  bot.api.send_message(chat_id: message.chat.id, text: 'Please select your line by typing an option number')
+  bot.api.send_message(chat_id: message.chat.id, text: 'Options:')
   bot.api.send_message(chat_id: message.chat.id, text: signs)
   chosen = select_lines(bot, display, lines)
   chosen
@@ -71,10 +72,11 @@ Telegram::Bot::Client.run(token) do |bot|
     else
       line_code = nil
       line_code = show_lines(message, bot, connection, display) until line_code
-      bot.api.send_message(chat_id: message.chat.id, text: 'Please select your stop')
+      bot.api.send_message(chat_id: message.chat.id, text: 'Please select your stop by typing an option number')
+      bot.api.send_message(chat_id: message.chat.id, text: 'Options:')
       stop_code = show_stops(message, line_code, bot, connection, display)
       arrival_time = connection.estimate_arrival(stop_code, line_code)
-      bot.api.send_message(chat_id: message.chat.id, text: "Your bus should arrive at ##{arrival_time}")
+      bot.api.send_message(chat_id: message.chat.id, text: "Your bus should arrive at #{arrival_time}")
     end
   end
 end
