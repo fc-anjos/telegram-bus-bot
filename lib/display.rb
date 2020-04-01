@@ -1,3 +1,4 @@
+require_relative './api_connection.rb'
 class Display
   def initialize; end
 
@@ -52,12 +53,9 @@ class Display
 
   def format_arrivals(arrivals_list)
     string = ''
-    if arrivals_list.empty?
-      string = 'There are no expected arrivals for this line at this stop!'
-    else
-      arrivals_list.each do |time|
-        string += time
-      end
+    string = 'There are no expected arrivals for this line at this stop!'
+    arrivals_list.each do |time|
+      string += time.to_s
     end
     string
   end
@@ -73,3 +71,10 @@ class Display
     stops
   end
 end
+
+connection = Connection.new
+display = Display.new
+arrivals = connection.estimate_arrival('7014417', '525')
+arrivals = display.get_arrivals(arrivals)
+arrivals = display.format_arrivals(arrivals)
+p arrivals
