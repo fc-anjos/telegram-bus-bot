@@ -37,7 +37,6 @@ class Display
 
   def get_arrivals(hash_arrivals)
     arrivals = []
-    ## Catches the exception for when there are no arrivals expected
     begin
     hash_arrivals['p']['l'].each do |line|
       line['vs'].each do |vehicle|
@@ -52,8 +51,14 @@ class Display
 
   def format_arrivals(arrivals_list)
     string = ''
-    arrivals_list.each do |time|
-      string += time.to_s
+    arrivals_list.each_with_index do |time, index|
+      string += if index.zero?
+                  time.to_s
+                elsif index == 1
+                  "and then at #{time}"
+                else
+                  ", #{time}"
+                end
     end
     string
   end
