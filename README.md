@@ -10,19 +10,20 @@ This Telegram bot connects to SPTrans API to estimate the arrival times for a gi
 ## Check it online!
 drop a message to @bus-statuses-bot in Telegram
 
-
 <!-- SCREENSHOT -->
-_Screenshot_
-![Screenshot of the project](screenshot.gif)
+## Screenshot
+[![](screenshot.gif)](#)
+
 ## Built With
-ruby
-[Telegram](https://telegram.org/)
-[telegram-bot-ruby](https://github.com/atipugin/telegram-bot-ruby) (gem)
-[SPTrans API](http://www.sptrans.com.br/desenvolvedores/api-do-olho-vivo-guia-de-referencia/documentacao-api/)
+[Ruby](https://www.ruby-lang.org/)  
+[Telegram](https://telegram.org/)  
+[telegram-bot-ruby](https://github.com/atipugin/telegram-bot-ruby) (gem)  
+[SPTrans API](http://www.sptrans.com.br/desenvolvedores/api-do-olho-vivo-guia-de-referencia/documentacao-api/)  
 
 ## Contributing
-Contributions, issues and feature requests are welcome!
-Feel free to check the [issues page](issues/).
+Contributions, issues and feature requests are welcome!  
+Feel free to check the [issues page](issues/).  
+  
 The project could be improved by adding geo-location features to find the nearest Bus Stop.  
 Think you could help us?  
-Drop a message here or at felipe.anjos@usp.br
+Drop a message here or at felipe.anjos@usp.br  
