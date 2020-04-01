@@ -55,6 +55,17 @@ def select_stop(message, bot, display, stops_hash)
   false
 end
 
+def message_arrival_time(message, bot, display, stop_code, line_code)
+  hash_arrivals = connection.estimate_arrival(stop_code, line_code)
+  arrivals_list = display.get_arrivals(hash_arrivals)
+  if arrivals_list.empty?
+    bot.api.send_message(chat_id: message.chat.id, text: 'There are no expected arrivals for this line at this stop!')
+  else
+    format_arrivals = display.format_arrivals(arrivals_list)
+    bot.api.send_message(chat_id: message.chat.id, text: "Your bus should arrive at #{format_arrivals}")
+  end
+end
+
 Telegram::Bot::Client.run(token) do |bot|
   connection = Connection.new
   display = Display.new
@@ -65,24 +76,17 @@ Telegram::Bot::Client.run(token) do |bot|
       bot.api.send_message(chat_id: message.chat.id, text: "Fala,  #{message.from.first_name}!" \
                              'Vou fazer um robô pra te mandar um alôzinho então, demorou??')
 
-    #     else
-    #       bot.api.send_message(chat_id: message.chat.id, text: "Foi mal,  #{message.from.first_name}!" \
-    #       'você quebrou o robozinho')
-
     else
-      line_code = nil
-      line_code = show_lines(message, bot, connection, display) until line_code
-      bot.api.send_message(chat_id: message.chat.id, text: 'Please select your stop by typing an option number')
-      bot.api.send_message(chat_id: message.chat.id, text: 'Options:')
-      stop_code = show_stops(message, line_code, bot, connection, display)
-      hash_arrivals = connection.estimate_arrival(stop_code, line_code)
-      arrivals_list = display.get_arrivals(hash_arrivals)
-      if arrivals_list.empty?
-        bot.api.send_message(chat_id: message.chat.id, text: 'There are no expected arrivals for this line at this stop!')
-      else
-        format_arrivals = display.format_arrivals(arrivals_list)
-        bot.api.send_message(chat_id: message.chat.id, text: "Your bus should arrive at #{format_arrivals}")
-      end
+      bot.api.send_message(chat_id: message.chat.id, text: "Foi mal,  #{message.from.first_name}!" \
+      'você quebrou o robozinho')
+
+      #     else
+      #       line_code = nil
+      #       line_code = show_lines(message, bot, connection, display) until line_code
+      #       bot.api.send_message(chat_id: message.chat.id, text: 'Please select your stop by typing an option number')
+      #       bot.api.send_message(chat_id: message.chat.id, text: 'Options:')
+      #       stop_code = show_stops(message, line_code, bot, connection, display)
+      #       message_arrival_time(message, bot, display, stop_code, line_code)
     end
   end
 end

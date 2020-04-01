@@ -1,4 +1,3 @@
-require_relative './api_connection.rb'
 class Display
   def initialize; end
 
@@ -23,7 +22,7 @@ class Display
     string = ''
     hash.each_with_index do |(_key, value), index|
       string += "\n" if index >= 0
-      string += "**#{index + 1}**\n#{value}\n"
+      string += "#{index + 1}\n#{value}\n"
     end
     string
   end
@@ -71,10 +70,3 @@ class Display
     stops
   end
 end
-
-connection = Connection.new
-display = Display.new
-arrivals = connection.estimate_arrival('7014417', '525')
-arrivals = display.get_arrivals(arrivals)
-arrivals = display.format_arrivals(arrivals)
-p arrivals
