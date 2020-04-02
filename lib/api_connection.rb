@@ -7,7 +7,7 @@ class Connection
   attr_reader :signs
   def initialize
     @base_url = 'http://api.olhovivo.sptrans.com.br/v2.1'
-    token = '41a811d106147fd42bb8205ed6ff75a19b3ace1d79564d2ec522cad6fc930f41'
+    token = ENV['SPTRANS_TOKEN'].to_s
     @agent = Mechanize.new
     @agent.post("#{@base_url}/Login/Autenticar?token=#{token}")
   end
