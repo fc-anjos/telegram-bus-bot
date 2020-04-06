@@ -23,12 +23,12 @@ class BusBot
           bot.api.send_message(chat_id: message.chat.id, text: '(e.g. 8000)')
 
         else
-          # line_code = nil
-          # line_code = show_lines(message, bot) until line_code
-          # bot.api.send_message(chat_id: message.chat.id, text: 'Please select your stop by typing an option number')
-          # bot.api.send_message(chat_id: message.chat.id, text: 'Options:')
-          # stop_code = show_stops(message, line_code, bot)
-          # message_arrival_time(message, bot, stop_code, line_code)
+          line_code = nil
+          line_code = show_lines(message, bot) until line_code
+          bot.api.send_message(chat_id: message.chat.id, text: 'Please select your stop by typing an option number')
+          bot.api.send_message(chat_id: message.chat.id, text: 'Options:')
+          stop_code = show_stops(message, line_code, bot)
+          message_arrival_time(message, bot, stop_code, line_code)
         end
       end
     end
@@ -51,7 +51,7 @@ class BusBot
     rescue StandardError
       bot.api.send_message(chat_id: message.chat.id, text: "We couldn't find a line that matches this search," \
                            'please try again!')
-      return false
+      return start_bot
     end
     signs = @display.get_signs(lines)
     signs = @display.format_message(signs)
@@ -63,13 +63,7 @@ class BusBot
   end
 
   def show_stops(message, line_code, bot)
-    begin
-      stops_hash = @connection.stops_per_line(line_code)
-    rescue StandardError
-      bot.api.send_message(chat_id: message.chat.id, text: "We couldn't find a line that matches this search," \
-                           'please try again!')
-      return false
-    end
+    stops_hash = @connection.stops_per_line(line_code)
     stops = @display.get_stops(stops_hash)
     stops = @display.format_message(stops)
 
