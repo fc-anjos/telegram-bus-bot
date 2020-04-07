@@ -3,13 +3,14 @@ require 'nokogiri'
 require 'json'
 
 class Connection
-  @signs = nil
+  # @signs = nil
+
   attr_reader :signs
   def initialize
     @base_url = 'http://api.olhovivo.sptrans.com.br/v2.1'
     token = ENV['SPTRANS_TOKEN'].to_s
     @agent = Mechanize.new
-    @agent.post("#{@base_url}/Login/Autenticar?token=#{token}")
+    @status = @agent.post("#{@base_url}/Login/Autenticar?token=#{token}").body
   end
 
   def lines(terms)

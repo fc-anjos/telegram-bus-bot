@@ -1,6 +1,15 @@
 require_relative '../lib/api_connection'
 
 describe Connection do
-  let(:connection) { Connection.new }
-  specify { expect(connection).to be_a GameLogic }
+  describe '#initialize' do
+    let(:connection) { described_class.new }
+
+    it 'Creates a Mechanize agent as a class instance variable' do
+      expect(connection.instance_variable_get(:@agent)).to be_a(Mechanize)
+    end
+
+    it 'Succesfully connects to the SPTrans api' do
+      expect(connection.instance_variable_get(:@status)).to eq('true')
+    end
+  end
 end
