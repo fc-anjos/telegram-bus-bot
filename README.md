@@ -59,11 +59,17 @@ export TELEGRAM_TOKEN=<your_telegram_token_here>
 export SPTRANS_TOKEN=<your_sptrans_token_here>
 ```
 
-#####Contributions, issues and feature requests are welcome.
+
+#### Test purposes only:
+For test purposes, you can try using the following API keys:  
+TELEGRAM_TOKEN = 1175504180:AAHNAABbboJaLKcVFU9QFKThI9-5cp-Qv9o  
+SPTRANS_TOKEN = cf58f0f625a6f8708360d3a688dec79e38170f78936b9622d05cb569f1405bdc  
+
+##### Contributions, issues and feature requests are welcome.
 You should now be able to handle the needed API Keys. Fork this repo, develop new and features and ask for a pull request. Drop me a message if help is needed.
 Feel free to check the [issues page](issues/).  
 
-#####Contributions suggestions:
+##### Contributions suggestions:
 The project could be improved by adding geo-location features to find the nearest Bus Stop.  
 Think you could help us?  
 Drop a message here or at felipe.anjos@usp.br  
