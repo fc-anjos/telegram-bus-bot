@@ -1,7 +1,7 @@
-require 'rubygems'
-require 'telegram/bot'
-require_relative '../lib/display'
-require_relative '../lib/api_connection'
+require('rubygems')
+require('telegram/bot')
+require_relative('../lib/display')
+require_relative('../lib/api_connection')
 
 class BusBot
   def initialize
@@ -16,12 +16,7 @@ class BusBot
       bot.listen do |message|
         case message.text
         when '/start'
-          bot.api.send_message(chat_id: message.chat.id, text: "Hello,  #{message.from.first_name}!" \
-            'This is a bot that will help you getting the estimated arrival times for buses in São Paulo ')
-          bot.api.send_message(chat_id: message.chat.id, text: '' \
-          'To start you first search, just type a bus number or part of it\'s name ')
-          bot.api.send_message(chat_id: message.chat.id, text: '(e.g. 8000)')
-
+          start_message(message, bot)
         else
           line_code = nil
           line_code = show_lines(message, bot) until line_code
@@ -32,6 +27,20 @@ class BusBot
         end
       end
     end
+  end
+
+  def start_message(message, bot)
+    bot.api.send_message(
+      chat_id: message.chat.id,
+      text: "Hello,  #{message.from.first_name}!" \
+                  'This is a bot that will help you getting the estimated arrival times for buses in São Paulo '
+    )
+    bot.api.send_message(
+      chat_id: message.chat.id,
+      text: '' \
+                'To start you first search, just type a bus number or part of it\'s name '
+    )
+    bot.api.send_message(chat_id: message.chat.id, text: '(e.g. 8000)')
   end
 
   def message_arrival_time(message, bot, stop_code, line_code)
@@ -49,8 +58,11 @@ class BusBot
     begin
       lines = @connection.lines(message)
     rescue StandardError
-      bot.api.send_message(chat_id: message.chat.id, text: "We couldn't find a line that matches this search," \
-                           'please try again!')
+      bot.api.send_message(
+        chat_id: message.chat.id,
+        text: "We couldn't find a line that matches this search," \
+                                   'please try again!'
+      )
       return start_bot
     end
     signs = @display.get_signs(lines)
@@ -99,7 +111,7 @@ class BusBot
     choice = nil
     until choice
       begin
-        choice = message.text.to_i
+        choice = Integer(message.text, 10)
       rescue StandardError
         bot.api.send_message(chat_id: message.chat.id, text: 'Invalid number selected!')
       end

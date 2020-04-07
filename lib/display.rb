@@ -52,13 +52,14 @@ class Display
   def format_arrivals(arrivals_list)
     string = ''
     arrivals_list.each_with_index do |time, index|
-      string += if index.zero?
-                  time.to_s
-                elsif index == 1
-                  " and then at #{time}"
-                else
-                  ", #{time}"
-                end
+      string +=
+        if index.zero?
+          time.to_s
+        elsif index == 1
+          " and then at #{time}"
+        else
+          ", #{time}"
+                       end
     end
     string
   end

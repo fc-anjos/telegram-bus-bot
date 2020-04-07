@@ -1,6 +1,6 @@
-require 'mechanize'
-require 'nokogiri'
-require 'json'
+require('mechanize')
+require('nokogiri')
+require('json')
 
 class Connection
   attr_reader :status
@@ -15,13 +15,13 @@ class Connection
   end
 
   def lines(terms)
-    lines = @agent.get "#{@base_url}/Linha/Buscar?termosBusca=#{terms}"
+    lines = @agent.get("#{@base_url}/Linha/Buscar?termosBusca=#{terms}")
     parsed_lines = parse_query(lines.body)
     hash_result(parsed_lines, 'cl')
   end
 
   def stops_per_line(line_code)
-    stops = @agent.get "#{@base_url}/Parada/BuscarParadasPorLinha?codigoLinha=#{line_code}"
+    stops = @agent.get("#{@base_url}/Parada/BuscarParadasPorLinha?codigoLinha=#{line_code}")
     parsed_stops = parse_query(stops.body)
     hash_result(parsed_stops, 'cp')
   end
@@ -33,13 +33,13 @@ class Connection
   end
 
   def estimate_arrival(stop_code, line_code)
-    arrival = @agent.get "#{@base_url}/Previsao?codigoParada=#{stop_code}&codigoLinha=#{line_code} "
+    arrival = @agent.get("#{@base_url}/Previsao?codigoParada=#{stop_code}&codigoLinha=#{line_code} ")
     parse_query(arrival.body)
   end
 
   def arrivals_at_stop(stop_code)
-    arrival = @agent.get "#{@base_url}//Previsao/Parada?codigoParada=#{stop_code}"
-    puts arrival.body
+    arrival = @agent.get("#{@base_url}//Previsao/Parada?codigoParada=#{stop_code}")
+    puts(arrival.body)
   end
 
   def hash_result(results_json, code_key)
