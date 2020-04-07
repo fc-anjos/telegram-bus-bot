@@ -3,14 +3,15 @@ require 'nokogiri'
 require 'json'
 
 class Connection
-  # @signs = nil
+  attr_reader :status
+  @status = false
 
-  attr_reader :signs
   def initialize
     @base_url = 'http://api.olhovivo.sptrans.com.br/v2.1'
     token = ENV['SPTRANS_TOKEN'].to_s
     @agent = Mechanize.new
-    @status = @agent.post("#{@base_url}/Login/Autenticar?token=#{token}").body
+    status = @agent.post("#{@base_url}/Login/Autenticar?token=#{token}").body
+    @status = true if status.downcase == 'true'
   end
 
   def lines(terms)

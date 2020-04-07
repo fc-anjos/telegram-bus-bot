@@ -9,7 +9,7 @@ describe Connection do
     end
 
     it 'Succesfully connects to the SPTrans api' do
-      expect(connection.instance_variable_get(:@status)).to eq('true')
+      expect(connection.status).to be(true)
     end
   end
 end
