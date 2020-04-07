@@ -59,7 +59,7 @@ class Display
           " and then at #{time}"
         else
           ", #{time}"
-                       end
+        end
     end
     string
   end
