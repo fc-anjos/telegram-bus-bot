@@ -51,7 +51,7 @@ If you choose to deploy your bot on heroku, you can learn how to configure your 
 ### API keys to run local tests:
 The deployed version of this bot store it's tokens safely.  
 To run the tests locally, you will need tokens as environment variables.  
-The dotenv gem is already bundled for this purposes and the tests will import the tokens from the file .env.local in the root of this project.  
+The dotenv gem is already bundled for this purposes and the tests will import the tokens from the file .env the root of this project.  
 Create this file with the following content:
 
 ```

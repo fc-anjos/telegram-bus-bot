@@ -98,5 +98,4 @@ RSpec.configure do |config|
 end
 
 require 'dotenv'
-Dotenv.load('.env.local')
-
+Dotenv.load('.env')
