@@ -26,12 +26,6 @@ class Connection
     hash_result(parsed_stops, 'cp')
   end
 
-  def parse_query(html_result)
-    result_xml = Nokogiri::HTML(html_result, nil, Encoding::UTF_8.to_s)
-    result_json = JSON.parse(result_xml.css('body p').inner_html)
-    result_json
-  end
-
   def estimate_arrival(stop_code, line_code)
     arrival = @agent.get("#{@base_url}/Previsao?codigoParada=#{stop_code}&codigoLinha=#{line_code} ")
     parse_query(arrival.body)
@@ -40,6 +34,14 @@ class Connection
   def arrivals_at_stop(stop_code)
     arrival = @agent.get("#{@base_url}//Previsao/Parada?codigoParada=#{stop_code}")
     puts(arrival.body)
+  end
+
+  private
+
+  def parse_query(html_result)
+    result_xml = Nokogiri::HTML(html_result, nil, Encoding::UTF_8.to_s)
+    result_json = JSON.parse(result_xml.css('body p').inner_html)
+    result_json
   end
 
   def hash_result(results_json, code_key)
