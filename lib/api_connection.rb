@@ -50,6 +50,9 @@ class Connection
       code = result.delete(code_key)
       hash[code] = result
     end
+    hash.each do |key, inner_hash|
+      hash[key] = inner_hash.transform_keys(&:to_sym)
+    end
     hash
   end
 end

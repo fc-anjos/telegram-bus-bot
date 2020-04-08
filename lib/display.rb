@@ -5,13 +5,13 @@ class Display
     signs = {}
     hash_lines.each do |code, line|
       line_code = code
-      sign_number = line['lt'].to_s + '-' + line['tl'].to_s
-      if line['lc']
-        sign = "#{sign_number}\n#{line['tp']} (#{line['ts']})"
-      elsif line['sl'] == 1
-        sign = "#{sign_number}\n#{line['tp']} => #{line['ts']}"
-      elsif line['sl'] == 2
-        sign = "#{sign_number}\n#{line['ts']} => #{line['tp']}"
+      sign_number = line[:lt].to_s + '-' + line[:tl].to_s
+      if line[:lc]
+        sign = "#{sign_number}\n#{line[:tp]} (#{line[:ts]})"
+      elsif line[:sl] == 1
+        sign = "#{sign_number}\n#{line[:tp]} => #{line[:ts]}"
+      elsif line[:sl] == 2
+        sign = "#{sign_number}\n#{line[:ts]} => #{line[:tp]}"
       end
       signs[line_code] = sign
     end
@@ -35,10 +35,10 @@ class Display
     selections
   end
 
-  def get_arrivals(hash_arrivals)
+  def get_arrivals(parsed_arrivals)
     arrivals = []
     begin
-    hash_arrivals['p']['l'].each do |line|
+    parsed_arrivals['p']['l'].each do |line|
       line['vs'].each do |vehicle|
         arrivals.push(vehicle['t'])
       end
@@ -68,8 +68,8 @@ class Display
     stops = {}
     hash_stops.each do |code, stop|
       stop_code = code
-      stop_name = stop['np']
-      stop_address = stop['ed']
+      stop_name = stop[:np]
+      stop_address = stop[:ed]
       stops[stop_code] = "Stop #{stop_name} at #{stop_address}"
     end
     stops
