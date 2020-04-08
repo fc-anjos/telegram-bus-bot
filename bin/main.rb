@@ -2,14 +2,18 @@ require('rubygems')
 require('telegram/bot')
 require_relative('../lib/display')
 require_relative('../lib/api_connection')
+require_relative('../lib/message_logic')
 
 class BusBot
   def initialize
     @token = ENV['TELEGRAM_TOKEN'].to_s
     @connection = Connection.new
     @display = Display.new
+    @message_logic = MessageLogic.new
     start_bot
   end
+
+  private
 
   def start_bot
     Telegram::Bot::Client.run(@token) do |bot|
@@ -78,7 +82,6 @@ class BusBot
     stops_hash = @connection.stops_per_line(line_code)
     stops = @display.get_stops(stops_hash)
     stops = @display.format_message(stops)
-
     bot.api.send_message(chat_id: message.chat.id, text: stops)
 
     bot.listen do |message_stop|
@@ -89,7 +92,7 @@ class BusBot
 
   def select_lines(bot, lines)
     bot.listen do |message|
-      options = @display.prepare_selection(lines)
+      options = @message_logic.prepare_selection(lines)
       choice = rescued_choice(message)
       return options[choice - 1] if choice <= options.length && choice.positive?
 
@@ -99,7 +102,7 @@ class BusBot
   end
 
   def select_stop(message, bot, stops_hash)
-    options = @display.prepare_selection(stops_hash)
+    options = @message_logic.prepare_selection(stops_hash)
     choice = rescued_choice(message)
     return options[choice - 1] if choice <= options.length && choice.positive?
 

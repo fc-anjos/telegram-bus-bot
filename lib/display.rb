@@ -18,23 +18,6 @@ class Display
     signs
   end
 
-  def format_message(hash)
-    string = ''
-    hash.each_with_index do |(_key, value), index|
-      string += "\n" if index >= 0
-      string += "#{index + 1}\n#{value}\n"
-    end
-    string
-  end
-
-  def prepare_selection(hash)
-    selections = {}
-    hash.each_with_index do |(code, _sign), index|
-      selections[index] = code
-    end
-    selections
-  end
-
   def get_arrivals(parsed_arrivals)
     arrivals = []
     begin
@@ -73,5 +56,14 @@ class Display
       stops[stop_code] = "Stop #{stop_name} at #{stop_address}"
     end
     stops
+  end
+
+  def format_message(hash)
+    string = ''
+    hash.each_with_index do |(_key, value), index|
+      string += "\n" if index >= 0
+      string += "#{index + 1}\n#{value}\n"
+    end
+    string
   end
 end
